@@ -3,8 +3,8 @@ version: "3.3"
 services:
   nginx:
     restart: always
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: nginx:1.21.4
     ports:
       - "8000:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
