@@ -121,3 +121,12 @@ article p {
     padding-bottom: 3px;
     text-align: justify;
 }
+
+article a {
+    color: #119da4;
+    text-decoration: none;
+}
+
+article a:hover {
+    color: #d7d9ce;
+}
