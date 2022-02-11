@@ -1,0 +1,86 @@
+baseurl      = "/"
+title        = "Juju"
+languageCode = "en-us"
+theme        = "hello_friend"
+paginate     = 10
+
+PygmentsCodeFences = true
+PygmentsStyle = "monokai"
+
+[author]
+  name = "Julien CLEMENT"
+
+[params]
+  dateform        = "Jan 2, 2006"
+  dateformShort   = "Jan 2"
+  dateformNum     = "2006-01-02"
+  dateformNumTime = "2006-01-02 15:04"
+
+  # Subtitle for home
+  homeSubtitle = "de la conf de Julien"
+
+  # Set disableReadOtherPosts to true in order to hide the links to other posts.
+  disableReadOtherPosts = false
+
+  # Enable sharing buttons, if you like
+  enableSharingButtons = true
+
+  # Metadata mostly used in document's head
+  description = "My new homepage or blog"
+  keywords = "homepage, blog, crypto, reverse"
+  images = [""]
+
+  [[params.social]]
+    name = "github"
+    url = "https://github.com/Azomasiel"
+
+  [[params.social]]
+    name = "gitea"
+    url = "https://git.juju.re/explore/repos"
+
+  [[params.social]]
+    name = "linkedin"
+    url = "https://www.linkedin.com/in/julien-clement-0891ab199/"
+
+
+  [params.portrait]
+    path     = "/juju.jpg"
+    alt      = "Portrait"
+    maxWidth = "250px"
+
+  [params.favicon.color]
+    mask = "#1b1c1d"
+    msapplication = "#1b1c1d"
+    theme = "#1b1c1d"
+
+  [params.footer]
+    author = true
+
+[taxonomies]
+    category = "blog"
+    tag      = "tags"
+    series   = "series"
+
+[languages]
+  [languages.en]
+    title = "Juju"
+    subtitle = ""
+    keywords = "Crypto, Reverse"
+    copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
+    readOtherPosts = "Read other posts"
+
+    [languages.en.params.logo]
+      logoMark = "juju@synacktiv ~$ "
+      logoText = "cryptoratio"
+      logoHomeLink = "/"
+      logoCursorColor = "#3884FF"
+    # or
+    #
+    # path = "/img/your-example-logo.svg"
+    # alt = "Your example logo alt text"
+
+  # And you can even create generic menu
+  [[menu.main]]
+    identifier = "posts"
+    name       = "Posts"
+    url        = "/post/"
