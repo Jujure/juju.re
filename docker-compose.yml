@@ -7,4 +7,4 @@ services:
     ports:
       - "8000:80"
     volumes:
-      - ./html:/usr/share/nginx/html
+      - ./jujure/public:/usr/share/nginx/html
