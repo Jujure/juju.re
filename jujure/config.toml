@@ -7,6 +7,7 @@ paginate     = 10
 PygmentsCodeFences = true
 PygmentsStyle = "monokai"
 
+
 [author]
   name = "Julien CLEMENT"
 
@@ -56,10 +57,6 @@ PygmentsStyle = "monokai"
   [params.footer]
     author = true
 
-[taxonomies]
-    category = "blog"
-    tag      = "tags"
-    series   = "series"
 
 [languages]
   [languages.en]
@@ -71,7 +68,7 @@ PygmentsStyle = "monokai"
 
     [languages.en.params.logo]
       logoMark = "juju@synacktiv ~$ "
-      logoText = "cryptoratio"
+      logoText = "cryptopouneur"
       logoHomeLink = "/"
       logoCursorColor = "#3884FF"
     # or
@@ -84,3 +81,8 @@ PygmentsStyle = "monokai"
     identifier = "posts"
     name       = "Posts"
     url        = "/post/"
+
+  [[menu.main]]
+    identifier = "writeups"
+    name       = "Writeups"
+    url        = "/writeups/"
