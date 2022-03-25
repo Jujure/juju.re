@@ -104,7 +104,7 @@ I used z3 to build and solve the equation system:
 
 {{< code file="/static/q-solved/flag.py" language="py" >}}
 
-Running the script outputs us the equation system, sat indicated that z3 found
+Running the script outputs us the equation system, sat indicating that z3 found
 a solution to the system and the decoded solution of the system with the flag:
 `zer0pts{FLAG_by_Gr0v3r's_4lg0r1thm}`
 
