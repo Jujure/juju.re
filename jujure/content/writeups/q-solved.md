@@ -26,7 +26,7 @@ show the flag forever :thinking:
 
 ## TL;DR
 
-The scripts builds a quantum circuit describing an unstructured search
+The script builds a quantum circuit describing an unstructured search
 algorithm inspired by the grover's algorithm. Its goal is to find among all
 possible inputs, the one(s) with the highest probability to match a predefined
 criteria.
