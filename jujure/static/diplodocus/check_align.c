@@ -1,7 +1,7 @@
  uint64_t sub_1570(int32_t j, int32_t i, struct context context)
  {
      int32_t res = 0;
-     int32_t *board = context.board;;
+     int32_t *board = context.board;
      int32_t res_flag = 0;
      if ((j <= 0xb && i <= 0xb))
      {
@@ -15,15 +15,15 @@
              {
                  int32_t r8 = r12_1; // ignore for now
                  int32_t x = -0xb;  // Second increment
-                 int32_t neg = (y >> 0x1f);  // Probably interesting
+                 int32_t neg = (y >> 0x1f);             // Probably interesting
                  int32_t r11_2 = ((y_cpy * -0xb) + rbp_1); // but I can't seem
-                 int32_t y_cpy_cpy = ((neg ^ y) - osef);  // to care enough
+                 int32_t y_cpy_cpy = ((neg ^ y) - neg);    // to care enough
                  while (true)
                  {
                      if (x != 0)
                      {
                          int32_t neg = (x >> 0x1f); // Abs value again or
-                         int32_t x_cpy = ((neg ^ x) - osef); // something
+                         int32_t x_cpy = ((neg ^ x) - neg); // something
                          int32_t y_cpy_cpy_cpy = y_cpy_cpy;
                          int32_t count;
                          while (true) // Euclidean algorithm
@@ -63,7 +63,7 @@
 
                              // STOP THE COUNT
                              int32_t too_much = count > 2;
-                             res_flag = (res_flag | count>2);
+                             res_flag = (res_flag | too_much);
                          }
                          if (x == 0xb) // End the while true loops and iterate
                          {

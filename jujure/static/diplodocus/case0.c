@@ -16,7 +16,7 @@ case 0:
     zmm0 = (zmm0 & _mm_bsrli_si128(zmm0, 4));
 
     int32_t all_set = (zmm0 & 0xfff) != 0xfff;// Check that context.third_board
-    err = all_set | err;  // Is all set to 1
+    err = all_set | err;                      // is all set to 1
     context.err = err;
 
     uint32_t flag = 1; // Set error flag

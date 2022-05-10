@@ -139,7 +139,7 @@ enum describing possible movements in this array. I therefore name them `move`,
 
 Next we notice that we check that the `jth` bit of the `ith` row of the array,
 if is not set, it sets the said bit and update the coordinates in the context.
-If however it is already set, the program set the error flag that we already
+If however it is already set, the program sets the error flag that we already
 identified earlier.
 
 Clearly this is some sort of 12 * 12 bitboard implementation, the first thing
@@ -175,9 +175,9 @@ to place the said bit on a different bitboard than case 2 but with the same
 coordinates. If the bit queue is empty then we output an error.
 
 So I understand here that we must place 24 bits on another board while
-simultaneously moving on the first one that tracks the tile we already visited.
+simultaneously moving on the first one that tracks the tiles we already visited.
 
-Seems easy enough, however, the instruction does not end here, it call a
+Seems easy enough, however, the instruction does not end here, it calls a
 function passing the row of the bitboard as parameter, if the return value of
 this function is more than `2` we output an error.
 
@@ -267,15 +267,15 @@ traversal of the board, we did not encounter more than 2 bits.
 
 Here I was really scared because I started to think that this was maybe `\J`
 trolling me with again a cryptography problem modelised using bitboards are
-something. And everyone who checks my results of the FCSC know how bad I am
+something. And everyone who checks my results of the FCSC know how bad I am at
 cryptography.
 
 {{< code file="/static/diplodocus/check_align.c" language="c" >}}
 
 #### Alignement count
 
-So now I am really unhappy, I was having finding out puzzle and placing bits on
-boards but now `\J` is throwing modular arithmetic at me.
+So now I am really unhappy, I was having fun finding out puzzle and placing
+bits on boards but now `\J` is throwing modular arithmetic at me.
 
 I take a break crying in my bed after these findings before actually thinking.
 
@@ -356,8 +356,8 @@ the point if you remember well.
 However the only columns check is in case 0 where it simply checks that there
 is an even number of point per column.
 
-Nothing forbid us to put 12 points on the first and last column, which
-validates all our constraints
+Nothing forbids us to put 12 points on the first and last column, which
+validates all our constraints.
 
 ```
 |X| | | | | | | | | | |X|
@@ -373,6 +373,8 @@ validates all our constraints
 |X| | | | | | | | | | |X|
 |X| | | | | | | | | | |X|
 ```
+
+{{< image src="/diplodocus/stop_the_count.png" style="border-radius: 8px;" >}}
 
 ## Solve
 
