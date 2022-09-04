@@ -32,7 +32,6 @@ int64_t encrypt_file2(char* name)
 
                 // Determine if another block is needed to encrypt the file
                 int32_t n_blocks = len_read / 0x1000;
-                int32_t len_read;
                 if (len_read % 0x1000 != 0)
                     stop = 1;
 

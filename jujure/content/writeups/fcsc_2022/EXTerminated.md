@@ -129,12 +129,12 @@ A small fast forward in time as the main function is really straight forward,
 
 The program takes the path to the device to encrypt as argument, calls a bunch
 of function that are mostly wrappers around libext2fs functions to initialize
-some global variables holding structures of the EXT filesystem. It alsos checks
+some global variables holding structures of the EXT filesystem. It also checks
 that some flags are set in the structures of libext2fs, I do not know if these
 flags are implementation specific or are standard EXT flags but I did not
 bother too much with this.
 
-The intersting stuff is at the end, I can see that it calls a function that
+The interesting stuff is at the end, I can see that it calls a function that
 I called `encrypt_folder` after reversing it. It then flushes the filesystem to
 disk and write the inode bitmap.
 
@@ -145,8 +145,8 @@ disk and write the inode bitmap.
 Alright so let's take a look at the `encrypt_folder` to understand why I called
 it this way.
 
-I could clearly see from `main` that function was called with the string `.`
-to reference the current directory, and a function pointer that was still
+I could clearly see from `main` that this function was called with the string
+`.` to reference the current directory, and a function pointer that was still
 unkown to me at the time but that I renamed `encrypt_file`.
 
 How I knew that the function was encrypting folders and that the parameter was

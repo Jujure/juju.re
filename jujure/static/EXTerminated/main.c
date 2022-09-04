@@ -3,8 +3,6 @@ int32_t main(int32_t argc, char** argv, char** envp)
     int32_t res;
     if (argc != 2)
     {
-        char** rax;
-        rax = 0;
         printf("Usage %s <device> \n", *(int64_t*)argv);
         res = 1;
     }

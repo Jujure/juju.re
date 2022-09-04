@@ -225,7 +225,7 @@ on a third bitboard at the coordinates indexed by the operands.
 So my decompiler really despise this function, I told you it took the whole
 context as parameters but its not exactly true as it actually packs the whole
 context in 10 `int128_t` arguments using SIMD instructions. I cleaned up the
-function call for your eyes so you do not have de keep tracks of the 12
+function call for your eyes so you do not have de keep track of the 12
 parameters of the function.
 
 {{< code file="/static/diplodocus/case4_stripped.c" language="c" >}}
@@ -336,7 +336,7 @@ time solving it manually. I might start to implement a SAT solver or som...
 
 But wait, did you spot something sus with this implementation ?
 
-{{< image src="/diplodocus/the_rock.jpg" style="border-radius: 8px;" >}}
+{{< image src="/diplodocus/the_rock.gif" style="border-radius: 8px;" >}}
 
 ## Bypassing the puzzle
 

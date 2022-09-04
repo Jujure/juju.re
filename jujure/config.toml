@@ -19,7 +19,7 @@ enableEmoji = true
   dateformNumTime = "2006-01-02 15:04"
 
   # Subtitle for home
-  homeSubtitle = "de la conf de Julien"
+  homeSubtitle = ""
 
   # Set disableReadOtherPosts to true in order to hide the links to other posts.
   disableReadOtherPosts = false
@@ -29,7 +29,7 @@ enableEmoji = true
 
   # Metadata mostly used in document's head
   description = ""
-  keywords = "homepage, blog, crypto, reverse"
+  keywords = "homepage, blog, crypto, reverse, exploit"
   images = [""]
 
   [[params.social]]
@@ -69,7 +69,7 @@ enableEmoji = true
 
     [languages.en.params.logo]
       logoMark = "juju@synacktiv ~$ "
-      logoText = "cryptopouneur"
+      logoText = "objdump -d"
       logoHomeLink = "/"
       logoCursorColor = "#3884FF"
     # or
