@@ -44,6 +44,10 @@ enableEmoji = true
     name = "linkedin"
     url = "https://www.linkedin.com/in/julien-clement-0891ab199/"
 
+  [[params.social]]
+    name = "twitter"
+    url = "https://twitter.com/Juju_RE_"
+
 
   [params.portrait]
     path     = "/juju.jpg"
