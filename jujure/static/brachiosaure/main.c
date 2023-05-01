@@ -55,14 +55,14 @@ int32_t main(int32_t argc, char** argv, char** envp) __noreturn
             free(serial_img_data);
             free(an_interesting_output);
 
-            status = ((uint32_t)(err | ((int8_t)win == 0)));
+            status = err | (win == 0);
         }
     }
     else
     {
-        printf("Usage: %s <username> <username.p…", *(int64_t*)argv);
+        printf("Usage: %s <username> <username.p…", *argv);
     }
-    if (((argc != 4 || (argc == 4 && user_status == 0)) || ((argc == 4 && user_status != 0) && serial_status == 0)))
+    if (argc != 4 || user_status == 0 || serial_status == 0)
     {
         status = 1;
     }
