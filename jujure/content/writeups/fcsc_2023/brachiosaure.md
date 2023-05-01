@@ -298,9 +298,10 @@ And there is a really interesting property indeed:
 
 {{< image src="/brachiosaure/invertible.png" style="border-radius: 8px;" >}}
 
-By adding empty matrices and an identity matrix in the bottom right corner, the
-resulting matrix is always invertible, and the inverse can be trivially computed
-since it is simply moving matrices arround and negating the original image modulo 256 `notice the "-(QRuser)" in the inverted matrix`.
+By adding identity matrices and an empty matrix in the bottom right corner, the
+resulting matrix is always invertible, and the inverse can be trivially
+computed since it is simply moving matrices arround and negating the original
+image modulo 256 `notice the "-(QRuser)" in the inverted matrix`.
 
 ## Putting everything together
 
