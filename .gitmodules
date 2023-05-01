@@ -1,6 +1,0 @@
-[submodule "jujure/themes/hello_friend"]
-	path = jujure/themes/hello_friend
-	url = git@github.com:rhazdon/hugo-theme-hello-friend-ng.git
-[submodule "jujure/themes/terminal"]
-	path = jujure/themes/terminal
-	url = git@github.com:panr/hugo-theme-terminal.git
