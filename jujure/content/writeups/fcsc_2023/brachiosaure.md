@@ -255,7 +255,7 @@ If you are not convinced: take this more striking example:
 
 See how you can perform the dot product on each of the corner independently ?
 That is the key to solving this, because now instead of putting the identity
-matrix in the corresponding corner in the other image, we can simple compute the
+matrix in the corresponding corner in the other image, we can simply compute the
 inverse of the QR code:
 
 
