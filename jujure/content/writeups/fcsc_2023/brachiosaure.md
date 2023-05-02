@@ -10,7 +10,7 @@ toc: true
 
 Brachiosaure is a math/puzzle challenge from `\J` for the 2023 edition of the
 FCSC. It's difficulty is not in the reversing process, which is fairly trivial
-here, but in solving of underlying problem.
+here, but in solving the underlying problem.
 
 {{< image src="/brachiosaure/meme.jpg" style="border-radius: 8px;" >}}
 
