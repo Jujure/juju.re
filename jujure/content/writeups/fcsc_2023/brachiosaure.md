@@ -10,7 +10,7 @@ toc: true
 
 Brachiosaure is a math/puzzle challenge from `\J` for the 2023 edition of the
 FCSC. It's difficulty is not in the reversing process, which is fairly trivial
-here, but in solving of underlying problem.
+here, but in solving the underlying problem.
 
 {{< image src="/brachiosaure/meme.jpg" style="border-radius: 8px;" >}}
 
@@ -170,9 +170,9 @@ Cutting drama right now, it is simply a matrix dot product:
 
 Alright so to recap what actually happens:
 
-- In check serial, we perform the dot product of the user digest, interpreted a
-linearized 8 * 8 matrix, with itself, effectively squaring it, which gives us
-our serial (also in a linearized 8 * 8 matrix).
+- In check serial, we perform the dot product of the user digest, interpreted
+  as a linearized 8 * 8 matrix, with itself, effectively squaring it, which
+  gives us our serial (also in a linearized 8 * 8 matrix).
 
 - In main, we perform the dot product of the user and serial IMAGES, and we can
 see from the code that the return value indicates wether or not the resulting
@@ -242,11 +242,11 @@ over this bigger matrix, infinetely recursing.
 
 OK, so after this misadventure, the next step is to understand that a single
 element of coordinates (i, j) from the dot product is impacted by all elements
-of the ith line of the first matrix and all elements of the jth line. (You
-actually already needed to understand this to implement my dumb idea but now we
-will make it interesting).
+of the ith line of the first matrix and all elements of the jth column of the
+second. (You actually already needed to understand this to implement my dumb
+idea but now we will make it interesting).
 
-Let's say that I take my first QR code and I double it's size and width like
+Let's say that I take my first QR code and I double it's height and width like
 this where the purple ones are all 0 matrices and the green one is the identity:
 
 {{< image src="/brachiosaure/resizing.png" style="border-radius: 8px;" >}}
@@ -301,9 +301,10 @@ And there is a really interesting property indeed:
 
 {{< image src="/brachiosaure/invertible.png" style="border-radius: 8px;" >}}
 
-By adding empty matrices and an identity matrix in the bottom right corner, the
-resulting matrix is always invertible, and the inverse can be trivially computed
-since it is simply moving matrices arround and negating the original image modulo 256 `notice the "-(QRuser)" in the inverted matrix`.
+By adding identity matrices and an empty matrix in the bottom right corner, the
+resulting matrix is always invertible, and the inverse can be trivially
+computed since it is simply moving matrices arround and negating the original
+image modulo 256 `notice the "-(QRuser)" in the inverted matrix`.
 
 ## Putting everything together
 
@@ -332,7 +333,7 @@ from the remote service and the upload of the images to recover the flag.
 
 But before leaving this writeup there is still something I want to show you at the end.
 
-{{< code file="/static/brachiosaure/solve_writeup.py" language="c" >}}
+{{< code file="/static/brachiosaure/solve_writeup.py" language="python" >}}
 
 
 ```console
