@@ -330,7 +330,7 @@ from the remote service and the upload of the images to recover the flag.
 
 But before leaving this writeup there is still something I want to show you at the end.
 
-{{< code file="/static/brachiosaure/solve_writeup.py" language="c" >}}
+{{< code file="/static/brachiosaure/solve_writeup.py" language="python" >}}
 
 
 ```console
