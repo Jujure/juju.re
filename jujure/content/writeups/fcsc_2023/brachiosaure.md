@@ -243,7 +243,7 @@ of the ith line of the first matrix and all elements of the jth column of the
 second. (You actually already needed to understand this to implement my dumb
 idea but now we will make it interesting).
 
-Let's say that I take my first QR code and I double it's size and width like
+Let's say that I take my first QR code and I double it's height and width like
 this where the purple ones are all 0 matrices and the green one is the identity:
 
 {{< image src="/brachiosaure/resizing.png" style="border-radius: 8px;" >}}
