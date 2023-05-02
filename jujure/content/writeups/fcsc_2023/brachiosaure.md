@@ -167,9 +167,9 @@ Cutting drama right now, it is simply a matrix dot product:
 
 Alright so to recap what actually happens:
 
-- In check serial, we perform the dot product of the user digest, interpreted a
-linearized 8 * 8 matrix, with itself, effectively squaring it, which gives us
-our serial (also in a linearized 8 * 8 matrix).
+- In check serial, we perform the dot product of the user digest, interpreted
+  as a linearized 8 * 8 matrix, with itself, effectively squaring it, which
+  gives us our serial (also in a linearized 8 * 8 matrix).
 
 - In main, we perform the dot product of the user and serial IMAGES, and we can
 see from the code that the return value indicates wether or not the resulting

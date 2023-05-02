@@ -88,7 +88,7 @@ matrix_img_serial = img_to_matrix(img_serial)
 
 
 def invert(usr, serial):
-    # Add empty and identity matrices to maka it invetible
+    # Add empty and identity matrices to make it invetible
     usr = make_invertible(usr)
     serial = make_invertible(serial)
 
