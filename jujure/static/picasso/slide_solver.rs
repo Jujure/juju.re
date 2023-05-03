@@ -186,7 +186,6 @@ fn solve() {
     board.solve();
 
     println!("{:x?}", board.moves);
-    println!("{}", board.moves.len())
 }
 
 fn main() {

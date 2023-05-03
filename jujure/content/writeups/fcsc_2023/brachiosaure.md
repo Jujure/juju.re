@@ -195,7 +195,7 @@ tricks up my sleeve to solve this, which I finally almost all threw by the
 window when I discovered how easy the solver actually is.
 
 I still think that even though completely over engineered and full of dead ends,
-my though process may be of value for someone I guess.
+my thought process may be of value for someone I guess.
 
 ### Recontextualizing
 
@@ -218,7 +218,7 @@ we may resize the images of the QR codes to add some data.
 
 ### Dead end
 
-So then this is where I had a really dumb idea. I though that maybe I could
+So then this is where I had a really dumb idea. I thought that maybe I could
 append carefully crafted columns and empty lines to the first matrix, and
 carefully crafted line and empty columns to the second matrix so that the result
 of the dot product int overflow back to 0 or 1. Thus outputing 2 new images with the QR code in the top left corner.
@@ -365,13 +365,13 @@ The patched serial png
 {{< image src="/brachiosaure/90QOCSdkzFE3rrYD2GdkrZkh4q_serial.png" style="border-radius: 8px;" >}}
 
 
-As you can notice, there isn't any noise visible by naked eye, this script therefore get the flag 100% of the time.
+As you can notice, there isn't any noise visible by naked eye, this script therefore gets the flag 100% of the time.
 
 Why is it so clean ? Simply because of the strategy we used to compute the
 inverse matrix:
 
 - We add empty matrices: they are black so no noise
 
-- We add identity matrices: they only have the diagonal set to 1 so only a little bit grayer than the black, no noise visible by naked eyes
+- We add identity matrices: they only have the diagonal set to 1 so only a little bit grayer than theso here you go.
 
 - We add the opposite of the matrix, and this is the clean part: our original matrices only hold black and white pixels so respectively `0x0` and `0xff`, so the opposite of `0` is still `0` and the opposite of `0xff` if `1` modulo 256, so like the identity matrix, they are nearly invisible. If you look closely though :eyes: you will see that all white pixels of the QR code were indeed reflected as very faint taint of gray in its inverse matrix on the other image.

@@ -1,5 +1,5 @@
 ---
-title: "Scripting reverse challenges is overrated anyway | Picasso @ FCSC 2023"
+title: "Reversing and solving nested puzzles | Picasso @ FCSC 2023"
 date: "2023-05-01 18:00:00"
 author: "Juju"
 tags: ["Reverse", "Writeup", "fcsc"]
@@ -17,8 +17,7 @@ Yes I also know that `face0xff` already did a
 [writeup](https://ctf.0xff.re/2023/fcsc-2023/picasso) on this, but I still want
 to writeup it because I liked the challenge and even though my solution is kind
 of overengineered compared to the one of `face0xff`, I really enjoyed writing
-the solver algorithm for the first puzzle (and my way of solving the last puzzle
-was ... experimental to says the least).
+the solver algorithm for the first puzzle so here you go.
 
 {{< image src="/picasso/meme.jpg" style="border-radius: 8px;" >}}
 
@@ -69,7 +68,7 @@ really simple:
 - Initialize an index that will be used to iterate over the input in an infinite loop
 - We have 2 clear parts in this loop:
     - The first one when we are done iterating on the input: We will go back to what this does later but we can clearly see that it performs the final check and prints us the flag if we are good.
-    - The second one is the part that iterates on the input, so the one that is executed first. We can also see that it matches the characters from ou input against lower case letters, instantly exiting the program if it isn't one
+    - The second one is the part that iterates on the input, so the one that is executed first. We can also see that it matches the characters from our input against lower case letters, instantly exiting the program if it isn't one
 
 A first look at the init state shows us that it only contains only numbers
 between 0x0 and 0xf, a good hint that it may be used to index an array of `0x10`
@@ -80,23 +79,23 @@ elements.
 Let's start by looking inside that `else` block since it is the one doing stuff
 with our input.
 
-Ok so first thing you need to notice: you may think that characters is matched
+Ok so first thing you need to notice: you may think that characters are matched
 on all lowercase letters but if you look closely, the `'i'` and the `'o'`
 are missing, thus giving us an alphabet of 24 elements.
 
 I know what you are thinking `"But that's also the total size of the input, so
 characters from the input are used to index said input"`, yeah that could have
-been a good idea, but it does't and it is simply a coincidence.
+been a good idea, but it doesn't do that and it is simply a coincidence.
 
 So anyway we recover the index of the character in the alphabet and divide it
 by 4. The remainder is kept for later and the quotient is used to index
-a permutations matrix, which holds 6 permutaion tables of 0x36 elements each.
+a permutations matrix, which holds 6 permutation tables of 0x36 elements each.
 
 The permutation matrix is linearized though so I already redefined the dimesions
 so that's why it's showing really nicely in the code below. But to know the
-dimensions I basically saw that the permutation matrix was indexed by `(pos / 4) * 0x36` since our alphabet holds 24 characters, that gives us `24 / 4 == 6` arrays of size `0x36` in the matrix. We can confirm the 0x36 is we will iterate over `0x36` elements of the permutation array right after this.
+dimensions I basically saw that the permutation matrix was indexed by `(pos / 4) * 0x36`, since our alphabet holds 24 characters, that gives us `24 / 4 == 6` arrays of size `0x36` in the matrix. We can confirm the 0x36 is we will iterate over `0x36` elements of the permutation array right after this.
 
-We then copy the state and apply the permutations to it given by the fetched
+We then copy the state and apply the permutations given by the fetched
 permutation array. We repeat this process N times, N being `pos % 4`. We do not
 actually really care about the copy, it is simply there as temporary buffer so
 that permutations don't cancel each other or erase data in the state, it is
@@ -140,8 +139,8 @@ code and its explanations a bit lower in parallel.
 Basically you start with a board represented as an `uint64_t` intialized at
 `0x3da8e0915f2c4b67`. For now, view this board as an array of 16 elements, each element being 4 bits (`4 * 16 = 64`).
 
-As you know bits is a single hexadecimal digit, so actually each hexadecimal
-digit from this board is an element, so in the initial state the board is:
+As you know 4 bits is a single hexadecimal digit, so actually each hexadecimal
+digit from this board is an element, so the initial board is:
 `[3, d, a, 8, e, 0, 9, 1, 5, f, 2, c, 4, b, 6, 7]`
 
 You may have noticed that every element is unique, they represent the entire
@@ -151,10 +150,11 @@ We then create some variables that we will ignore for now, and an index (`i`)
 that will be used to iterate over the state that was shuffled in the first part.
 
 While iterating on the state, we fetch the current byte from the state, extended
-to 64 bits. Remember how we told that state only held values between `0` and `0xf` at the beginning ? Good, you are starting to see a pattern.
+to 64 bits. Remember how we told that state only held values between `0` and
+`0xf` at the beginning ? Good, you are starting to see a pattern.
 
-We crate a pointer a variable I called `allowed_moves`, it is once again a two
-dimensionnal array because we iterate over it in a nested loop. I knew its
+We create a pointer to a variable I called `allowed_moves`, it is once again a
+two dimensionnal array because we iterate over it in a nested loop. I knew its
 dimensions because this is the part to go to the next sub-array:
 
 ```c
@@ -172,7 +172,7 @@ loop iterate over an `uint64_t *`
 I pasted the entire content of this matrix below so you can have a look, you
 will see that every element of this matrix has a single bit set to 1, and bits that are all sets at a position of `0 % 4` for that matter.
 
-Okay let's take a look at the `shifter`. it is initialized to `0x3c` and is used
+Okay let's take a look at the `shifter`. It is initialized to `0x3c` and is used
 to shift the `board`, before keeping only the lowest weight hex-digit with the
 `& 0xf`. The hex digit is then compared against the byte we fetched from our
 state.  If they differ, we basically skip this loop, decrementing the `shifter`
@@ -190,14 +190,15 @@ Good, so once we find out `state` byte inside `board` we start iterating over
 the `allowed_moves`, basically the move is multiplied by `0xf`, which will effectively set the 4 bits corresponding to the single bit in the initial move, this will now be used as a mask on the board.
 
 So this move simply selects an hex digit from the board actually, if the
-selected byte is NOT 0, then we continue the loop, skipping the move, but it is
-0, then we exit the loop. Final check to see if the move itself was not, if it
-is then we go back to trying the next `shifter` and `allowed_moves`, if not then
-gg we selected a move. If at the end, no move was selected we go out of
-the loop and basically lose.
+selected byte is NOT 0, then we continue the loop, skipping the move, but if it
+is 0, then we exit the loop. Final check to see if the move itself was not 0, if
+it is then we go back to trying the next `shifter` and `allowed_moves`, if not
+then gg we selected a move. If at the end, no move was selected we go out of the
+loop and basically lose.
 
 So whatever this means, a valid move from a certain position in the board, must
-match with the `0` digit from the `board` being at certain indexes, which, for now since we did dig up the `allowed_moves` matrix yet, feel kind of arbitrary.
+match with the `0` digit from the `board` being at certain indexes, which, for
+now, since we did dig up the `allowed_moves` matrix yet, feel kind of arbitrary.
 
 Feeling confused ? Don't worry it will soon make sense.
 
@@ -213,10 +214,12 @@ Let's talk about the `swapper` now, it is composed of 2 parts:
 
 - `c << shifter`: so it will be the representation of the board as if only `c`
 was on it
-- `c * move`: the representation of the board as if `c` was at the
-position indicated by the move, and no other element on the board.
 
-We then compute the next board by `xoring` the current on with the swapper.
+- `c * move`: the representation of the board as if `c` was at the position
+indicated by the move, and no other element on the board. So it the board, with
+c at the position of the 0 and nothing else on the board
+
+We then compute the next board by `xoring` the current one with the swapper.
 This will have the effect to `xor` the current element of the `state` AND the
 current `0` from the board with the current element of the `state`. This will
 have the effect to actually swap the `0` and our element of the `state`.
@@ -240,14 +243,14 @@ FINALLY, there is the final check, after all the moves from the state have been 
 Great, now let's look at the `allowed_moves`.
 
 So what I did to understand what all those valid moves were was to take a pen,
-drew and array of 16 elements, and for each element I drew an arrow to every
+drew an array of 16 elements, and for each element I drew an arrow to every
 valid moves from that position. So just ignore that there has to be a `0` at
 these positions for now, it's simply a matter of "if there was a 0 there, could
 I move here ?". And it started looking like this for the first few elements:
 
 {{< image src="/picasso/swaps.png" style="border-radius: 8px;" >}}
 
-What you need to notice is that every move can be inverted, so you can back to your position after moving. MOST tiles can go to the tiles right next to them or to the tiles that are 4 tiles farther. For example, tile at index 1 can go either at 0, 2, or 5. You are probably starting to understand, let's just put
+What you need to notice is that every move can be inverted, so you can go back to your position after moving. MOST tiles can go to the tiles right next to them or to the tiles that are 4 tiles farther. For example, tile at index 1 can go either at 0, 2, or 5. You are probably starting to understand, let's just put
 the final touch: 3 cannot go to 4 and vise-versa.
 
 So this is simply a flattened 4 * 4 grid, where you can only move to the
@@ -269,7 +272,7 @@ Cool, all of this simply for a slide puzzle. Each element of the state correspon
 ### But wait there was a first step
 
 I hope you did not forgot that the state used to select which tiles are moved in
-which order was shuffled by the first step 1 according to our input.
+which order was shuffled by the first step according to our input.
 
 Maybe it's time to understand how this shuffle work.
 
@@ -330,7 +333,9 @@ Here are the indexes of each cube tile on the flatenned state:
 
 {{< image src="/picasso/cube_indexes.png" style="border-radius: 8px;" >}}
 
-I attributed colors to faces arbitrarily as long as it respected the usual cube configuration, but as long as I keep to this representation I will do fine.
+I attributed colors to faces arbitrarily to respect the usual cube
+configuration, but as long as I keep everythin coherent with this representation
+I will do just fine.
 
 With the above cube, fold it back and see how the first permutation array indeed performs a counter-clockwise rotation of the red face.
 
@@ -359,7 +364,7 @@ the starting cube in order to solve it.
 So to start I want to say that I am really impressed that the solver of
 `face0xff` found a solution this fast, I was really convinced that without the
 little tricks that I will show you, it would take too long to search for a 54
-moves solutions, but hey seems like it works if you implement every slide puzzle
+moves solution, but hey seems like it works if you implement every slide puzzle
 heuristics you may think of.
 
 So my approach was a backtracking algorithm, however you can clearly see why
@@ -398,10 +403,13 @@ a puzzle in a non-optimal way.
 
 Since the tile in bottom right needs to be `0`, this means that the last move needs to be `f` or `c`, so if at any point, both of these tiles do not have anymore moves remaining moves while the puzzle isn't already solved then you can already tell it's unsolvable.
 
-Oh I didn't talk about the limited number of moves per tiles ? don't worry I'll
+Oh I didn't talk about the limited number of moves per tiles ? Don't worry I'll
 explain in a minute.
 
 ### Rubik's cube heuristics
+
+These are the heuristics you can determine based on the fact that the moves
+are shuffled from a rubik's cube initial state.
 
 #### Face centers
 
@@ -424,7 +432,7 @@ never add or remove moves, therefore we can know how many times a tile will be
 moved. For example there are 4 `1` on the cube, so this means that the `1` tile
 of the slide puzzle must be played exactly 4 times, no more no less.
 
-So know, knowing this, while backtracking, we can keep track of how many times a tile has moved by decrementing its move counter.
+So now, knowing this, while backtracking, we can keep track of how many times a tile has moved by decrementing its move counter.
 
 Then, we can compute the manhattan distance of the tile to its supposed
 location, which is the minimum number of moves that would be required for the
@@ -440,3 +448,64 @@ So whenever the move counter of a tile becomes lower than its manhattant distanc
 So I implemented this in rust because I wanted this to be fast:
 
 {{< code file="/static/picasso/slide_solver.rs" language="rust" >}}
+
+And guess what ? It was super duper fast:
+
+```console
+$ time cargo run --release
+    Finished release [optimized] target(s) in 0.00s
+     Running `target/release/picasso`
+[e, 5, 4, b, f, e, d, 3, 5, 4, e, d, 9, 2, 6, f, b, e, d, 9, 2, 1, c, 7, f, b, e, d, 9, 2, 1, a, 3, 1, 4, 5, 1, 4, 2, 6, a, 3, 4, 2, 6, a, 7, c, 8, 4, 3, 7, b, f]
+
+________________________________________________________
+Executed in   77.37 millis    fish           external
+   usr time   71.83 millis  182.00 micros   71.65 millis
+   sys time    3.93 millis  673.00 micros    3.26 millis
+```
+
+That shit is probably completely overengineered and I don't care, I had fun
+writing it.
+
+I checked manually that this solution was correct and moved to the next step.
+
+
+## Solving the rubik's cube
+
+We now have our solution for the slide puzzle, so let's map it as a solved
+rubik's cube, we know the mapping using the index cube net which gives us which
+tiles of the cube corresponds to which move index on the slide puzzle:
+
+{{< image src="/picasso/solved_cube.png" style="border-radius: 8px;" >}}
+
+Since this is the solved cube, we attribute all the colors of the tiles.
+
+We now need to attribute the corresponding colors to the initial state of the
+cube so that we can input a valid cube to a solver.
+
+To do this, we use the fact that tiles that are connected along an edge or a
+corner will always be linked, so this way we can identify the tile groups on the
+cube and identify their color from the solved cube.
+
+{{< image src="/picasso/cube_init_colors.png" style="border-radius: 8px;" >}}
+
+Then I basically just used [this online
+solver](https://www.grubiks.com/solvers/rubiks-cube-3x3x3/), put manually all
+the colors, clicked on solve, and the site instantly found a solution in 22
+moves. So I noted manually every move, which face was supposed to move and wrote
+a script that mapped the moves back to the expected output of the program.
+
+In the script `('g', 2)` means rotate the green face 2 times, `('o', 3)` means rotate the orange face 3 times counter-clock wise ...
+
+{{< code file="/static/picasso/solve.py" language="python" >}}
+
+And piping this script in the program indeed gets us the flag.
+
+```console
+$ ./solve.py | ./picasso
+Password: Win!
+Send your input on the remote service to retrieve the flag.
+
+$ ./solve.py | nc challenges.france-cybersecurity-challenge.fr 2251
+Password: Win!
+FCSC{235b605a121bdd4b09adc4823bdf0967c446647c1ec69234813068a916fd83a6}
+```
