@@ -351,7 +351,7 @@ Here is the initial state of the cube:
 
 ### Recap everything
 
-So know we are done with the reversing part, with our input, the program will:
+So now we are done with the reversing part. With our input, the program will:
 
 - Consider each character as a move on a rubiks cube, applying said move
 - Consider the flatenned shuffled cube as a list of slide puzzle moves
