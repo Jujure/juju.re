@@ -91,15 +91,18 @@ So anyway we recover the index of the character in the alphabet and divide it
 by 4. The remainder is kept for later and the quotient is used to index
 a permutations matrix, which holds 6 permutation tables of 0x36 elements each.
 
-The permutation matrix is linearized though so I already redefined the dimesions
-so that's why it's showing really nicely in the code below. But to know the
-dimensions I basically saw that the permutation matrix was indexed by `(pos / 4) * 0x36`, since our alphabet holds 24 characters, that gives us `24 / 4 == 6` arrays of size `0x36` in the matrix. We can confirm the 0x36 is we will iterate over `0x36` elements of the permutation array right after this.
+The permutation matrix is linearized though so I already redefined the
+dimesions so that's why it's showing really nicely in the code below. But to
+know the dimensions I basically saw that the permutation matrix was indexed by
+`(pos / 4) * 0x36`, since our alphabet holds 24 characters, that gives us `24 /
+4 == 6` arrays of size `0x36` in the matrix. We can confirm the 0x36 because we
+will iterate over `0x36` elements of the permutation array right after this.
 
 We then copy the state and apply the permutations given by the fetched
 permutation array. We repeat this process N times, N being `pos % 4`. We do not
 actually really care about the copy, it is simply there as temporary buffer so
 that permutations don't cancel each other or erase data in the state, it is
-juste an implementation detail.
+just an implementation detail.
 
 So to sum this up, each character from our input will chose a permutation array
 to apply to our state and how many times to apply the permutation. They are 6
