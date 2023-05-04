@@ -492,7 +492,7 @@ Then I basically just used [this online
 solver](https://www.grubiks.com/solvers/rubiks-cube-3x3x3/), put manually all
 the colors, clicked on solve, and the site instantly found a solution in 22
 moves. So I noted manually every move, which face was supposed to move and wrote
-a script that mapped the moves back to the expected output of the program.
+a script that mapped the moves back to the expected input of the program.
 
 In the script `('g', 2)` means rotate the green face 2 times, `('o', 3)` means rotate the orange face 3 times counter-clock wise ...
 
