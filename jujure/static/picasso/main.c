@@ -57,7 +57,7 @@ int32_t main(int32_t argc, char** argv, char** envp)
             char* pos_ptr = strchr("abcdefghjklmnpqrstuvwxyz", input[state_index]);
             if (pos_ptr != NULL)
             {
-                // Do stuff iterating on the state
+                // Doing stuff while iterating on the input
                 ...
                 state_index += 1;
                 continue;
