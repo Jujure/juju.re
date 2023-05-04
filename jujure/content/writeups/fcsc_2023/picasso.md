@@ -164,7 +164,7 @@ allowed_moves += 0x28;
 So I knew each sub-array is `0x28` bytes, and I saw that the index used to
 iterrate the outer loop is the `shifter` variable, initialized to `0x3c` and
 decremented by `4` each loop until it is strictly negative, so a total of `0x10`
-iterations. We then have a matrix containing `0x10` arrays of `0x28`. 
+iterations. We then have a matrix containing `0x10` arrays of `0x28` bytes. 
 
 I also knew that the `0x28` bytes corresponded to 5 `uint64_t` since the inner
 loop iterate over an `uint64_t *`
@@ -198,7 +198,7 @@ loop and basically lose.
 
 So whatever this means, a valid move from a certain position in the board, must
 match with the `0` digit from the `board` being at certain indexes, which, for
-now, since we did dig up the `allowed_moves` matrix yet, feel kind of arbitrary.
+now, since we did not dig up the `allowed_moves` matrix yet, feel kind of arbitrary.
 
 Feeling confused ? Don't worry it will soon make sense.
 
