@@ -189,8 +189,10 @@ iterating to find at which index is the byte from the `state` inside the
 select an `allowed_moves` sub-array based on where the `state` byte is located
 in the `board`.
 
-Good, so once we find out `state` byte inside `board` we start iterating over
-the `allowed_moves`, basically the move is multiplied by `0xf`, which will effectively set the 4 bits corresponding to the single bit in the initial move, this will now be used as a mask on the board.
+Good, so once we find our `state` byte inside `board` we start iterating over
+the `allowed_moves`, basically the move is multiplied by `0xf`, which will
+effectively set the 4 bits corresponding to the single bit in the initial move,
+this will now be used as a mask on the board.
 
 So this move simply selects an hex digit from the board actually, if the
 selected byte is NOT 0, then we continue the loop, skipping the move, but if it
@@ -241,7 +243,7 @@ are allowed according to were the hex digit was in the board.
 
 - If a valid move was found, then we swap the `0` and the `state` byte.
 
-FINALLY, there is the final check, after all the moves from the state have been applied, the board must be `0x123456789abcdf0`.
+FINALLY, there is the final check, after all the moves from the state have been applied, the board must be `0x123456789abcdef0`.
 
 Great, now let's look at the `allowed_moves`.
 
@@ -285,8 +287,8 @@ OK so I got this one super fast actually, let's just get you the context back:
 - each can be applied `[0;4[` times each time
 - `0x36 == 54` elements in the state
 
-If you are a puzzle fan you already what this is I don't even need to show you
-the permutation matrix again but hey:
+If you are a puzzle fan you already know what this is I don't even need to show
+you the permutation matrix again but hey:
 
 ```c
 char permutations[0x6][0x36] = 
@@ -324,7 +326,7 @@ It's a rubiks cube.
 Each permutation table is a counter-clockwise rotation of a face of the cube.
 
 The process of mapping the cube in its flattened representation and to know
-which permutations corresponds to which face is just teadious so I will juste
+which permutations corresponds to which face is just teadious so I will just
 give you this one out.
 
 Do keep in mind that I was not familiar with standard rubiks cube notations, so
@@ -447,7 +449,9 @@ tile to go to that location if there were no other tile on the grid. For example
 tile `f` placed in the top left corner will have a manhattan distance of 5 to
 its supposed location.
 
-So whenever the move counter of a tile becomes lower than its manhattant distance to its suppose location, you know that you will never be able to place the tile back to where it is supposed to be.
+So whenever the move counter of a tile becomes lower than its manhattant
+distance to its supposed location, you know that you will never be able to place
+the tile back to where it is supposed to be.
 
 
 ### Solver
