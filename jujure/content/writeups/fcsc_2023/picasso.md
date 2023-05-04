@@ -404,7 +404,10 @@ a puzzle in a non-optimal way.
 
 #### Last move
 
-Since the tile in bottom right needs to be `0`, this means that the last move needs to be `f` or `c`, so if at any point, both of these tiles do not have anymore moves remaining moves while the puzzle isn't already solved then you can already tell it's unsolvable.
+Since the tile in bottom right needs to be `0`, this means that the last move
+needs to be `f` or `c`, so if at any point, both of these tiles do not have
+anymore remaining moves while the puzzle isn't already solved then you can
+already tell it's unsolvable.
 
 Oh I didn't talk about the limited number of moves per tiles ? Don't worry I'll
 explain in a minute.
@@ -416,7 +419,8 @@ are shuffled from a rubik's cube initial state.
 
 #### Face centers
 
-In a rubik's cube the center tile of each face CANNOT move, this means that since we know the starting position of the cube, we already know that:
+In a rubik's cube the center tile of each face CANNOT move, this means that
+since we know the starting position of the cube, we already know that:
 
 - Move `4` will be `f`
 - Move `d` will be `2`
