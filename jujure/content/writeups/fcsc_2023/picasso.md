@@ -334,7 +334,7 @@ Here are the indexes of each cube tile on the flatenned state:
 {{< image src="/picasso/cube_indexes.png" style="border-radius: 8px;" >}}
 
 I attributed colors to faces arbitrarily to respect the usual cube
-configuration, but as long as I keep everythin coherent with this representation
+configuration, but as long as I keep everything coherent with this representation
 I will do just fine.
 
 With the above cube, fold it back and see how the first permutation array indeed performs a counter-clockwise rotation of the red face.
