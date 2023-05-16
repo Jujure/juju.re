@@ -271,12 +271,12 @@ I know you understood everything but let's just see the target board
 
 So we need to get from one to the other in `0x36` moves exactly, each move swapping the 0 with an adjacent tile.
 
-Cool, all of this simply for a slide puzzle. Each element of the state corresponds to the tile that we must push on the `0` (which represent the empty tile in the slide puzzle). Let's go and solve th...
+Cool, all of this simply for a slide puzzle. Each element of the state corresponds to the tile that we must push on the `0` (which represents the empty tile in the slide puzzle). Let's go and solve th...
 
 
 ### But wait there was a first step
 
-I hope you did not forgot that the state used to select which tiles are moved in
+I hope you did not forget that the state used to select which tiles are moved in
 which order was shuffled by the first step according to our input.
 
 Maybe it's time to understand how this shuffle work.
@@ -449,7 +449,7 @@ tile to go to that location if there were no other tile on the grid. For example
 tile `f` placed in the top left corner will have a manhattan distance of 5 to
 its supposed location.
 
-So whenever the move counter of a tile becomes lower than its manhattant
+So whenever the move counter of a tile becomes lower than its manhattan
 distance to its supposed location, you know that you will never be able to place
 the tile back to where it is supposed to be.
 
