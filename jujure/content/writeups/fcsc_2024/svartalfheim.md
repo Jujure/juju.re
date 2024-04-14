@@ -1,6 +1,6 @@
 ---
 title: "Lifting a reloc based VM | Svartalfheim @ FCSC 2024"
-date: "2024-04-09 18:00:00"
+date: "2024-04-14 22:00:00"
 author: "Juju"
 tags: ["Reverse", "Writeup", "fcsc"]
 toc: true
@@ -13,10 +13,9 @@ only a few bytes of machine code, but after playing with it, you might notice
 some quantum behaviours. The program might be patching itself when you are
 not looking at it, so stay alert :eyes:.
 
-{{< image src="/brachiosaure/meme.jpg" style="border-radius: 8px;" >}}
-
 ## Challenge description
-`reverse` | `479 pts` `9 solves` `:star::star::star:`
+
+`reverse` | `469 pts` `13 solves` `:star::star::star:`
 
 ```
 Trouvez le flag accepté par le binaire.
@@ -52,7 +51,7 @@ Here is the decompiled code of the entrypoint.
 {{< code file="/static/svartalfheim/main.c" language="c" >}}
 
 Basically, it simply deletes a file named `_` from the current directory, then
-re-create it and opening it write mode.
+re-create it and open it write mode.
 
 The process then dumps itself into the opened file, close it and execve the
 dumped file.
@@ -100,19 +99,19 @@ in my decompiler:
 
 {{< image src="/svartalfheim/rela_patched.png" style="border-radius: 8px;" >}}
 
-So the first two bytes that are patched are the relation table addr inside
+The first two bytes that are patched are the relocation table addr inside
 the dynamic table.
 
 The last byte patched is the size of said relocation table.
 
 This means that at the next execution, the program will have different relocations.
 
-Maybe let's take a look at the original relocation table:
+Maybe we should take a look at the original relocation table:
 
 {{< image src="/svartalfheim/original_relocs.png" style="border-radius: 8px;" >}}
 
 Unusual relocations indeed. So the first one points to the relocation table
-addresse inside the dynamic table and the second one to the relocation table
+address inside the dynamic table and the second one to the relocation table
 size, also in the dynamic table, the two values that were patched in the next
 binary. We can already guess that the relocation table will be patched at
 every execution, running new relocations every time, just like a processor
@@ -132,6 +131,8 @@ Once again we can see relocs pointing to DT_RELA and DT_RELASZ values, but there
 
 When looking them up, we can see that these two addresses are located inside
 the symbol table. To be precise, the values of symbol `1` and `2` are patched.
+
+Below is the corresponding symbol table:
 
 {{< image src="/svartalfheim/second_symtab.png" style="border-radius: 8px;" >}}
 
@@ -160,7 +161,7 @@ Now let's really look at the third relocation table and run it in our mind:
 
 The first relocation is of type `0x8`, and has symbol `0x0` (which mean no symbol)
 
-It points to the address of the `value`` of symbol `0x5`.
+It points to the address of the `value` of symbol `0x5`.
 
 Relocation type `0x8` will simply put its `addend` value at the address pointed by its `addr` field. Thus storing `0xff` in the `0x5` symbol `value`
 
@@ -171,7 +172,7 @@ Second relocation is of type `0x1` and symbol `0x1`.
 This relocation will take the `value` of symbol `0x1`, add the reloc
 `addend` value, and store the result at the relocation `addr`
 
-So it looks like some sort of `add mem, reg, imm` instruction, considering
+So it looks like some sorts of `add mem, reg, imm` instruction, considering
 symbols as registers.
 
 I'll do the third relocation and we will have the whole instruction set:
@@ -180,14 +181,14 @@ The type is `0x5`, symbol `0x1`. It will take the value of the corresponding sym
 
 The assembly for this might look like `mov mem, [reg]`
 
-Here we go, that's it, an instruction set of 3 instruction, cannot even
-branch or add 2 registers.
+Here we go, that's it, an instruction set of 3 instructions,
+there isn't even an instruction to branch or to add two registers together.
 
 Let's write an interpreter for the VM so we can debug it.
 
 ### Writing the interpreter
 
-Basically the interpreter will have multiple role in the analysis:
+Basically the interpreter will have multiple roles in the analysis:
 
 * Get an execution trace and disassembly of the virtual machine
 * Set breakpoints during execution
@@ -195,19 +196,18 @@ Basically the interpreter will have multiple role in the analysis:
 
 {{< code file="/static/svartalfheim/interpreter.py" language="py" >}}
 
-
 This interpreter stops every time that the VM patches the native code section
 of the binary, this way I can stop whenever IO is performed, dump the binary
 and analyse it.
 
 The VM patches the native code a total of 7 times:
 
-* Setup a syscall to write to prompt on stdout
-* Immediately after, reset the native code the its original content
+* Setup a syscall to write the prompt on stdout
+* Immediately after, reset the native code to its original content
 * Setup a syscall to read the flag from stdin
-* Immediately after, reset the native code the its original content
+* Immediately after, reset the native code to its original content
 * Setup a syscall to write the flag validation
-* Immediately after, reset the native code the its original content
+* Immediately after, reset the native code to its original content
 * Setup a syscall to exit the program instead of the `execve` it again
 
 Investigating the third dumped binary will show us the flag address given to `read`, which will allow us to inject it in our interpreter:
@@ -219,16 +219,17 @@ The interpreter also builds a disassembled execution trace:
 I tried to make it readable as if it was intel assembly.
 
 I added some comments for easier analysis:
-* NATIVE CODE LOADING means tha this block (a complete run of a single relocation table) has patched the native code section
-* The comment hexstring is the data that is being outputed in the destination operand
+
+* NATIVE CODE LOADING means that this block (a complete run of a single relocation table) has patched the native code section
+* The commented hexstring is the data that is being outputed in the destination operand
 * PATCHING CODE means that this instruction has a destination address pointing to the next instruction, meaning it is trying to patch its own code
 * PATCHING FAR is the same but on an instruction of the same block but not the next one
 
 These were really helpful during analysis to have a reminder to check for code patching.
 
-You might be saying that the shown assembly doesn't correspond to the
-instruction defined above as there was no such instruction as
-`add reg, reg, imm`, it is indeed true, but the trick is that every registers
+You might be saying that the example assembly below doesn't correspond to the
+instruction set defined above as there was no such instruction as
+`add reg, reg, imm`, it is indeed true, but the trick is that every register
 are memory mapped (since they are simply symbols in the symtab of the ELF), so a memory deref can actually be a register and my disassembler lifts this.
 
 ```console
@@ -264,11 +265,11 @@ are memory mapped (since they are simply symbols in the symtab of the ELF), so a
 
 ### Side channel attempt
 
-My first attempt at a solver was really simple, I though that maybe the
+My first attempt at a solver was really simple, I thought that maybe the
 VM would check bytes one by one.
 
 So I added a method to inject the flag into my interpreter's memory and tried
-to bruteforce the first char, watching for execution trace length every time.
+to bruteforce the first char, watching for the length of the execution trace every time.
 
 But all 256 possible bytes gave the same number of instructions
 
@@ -315,11 +316,11 @@ $0x0`, but said immediate `$0x0` was patched by previous instruction, with the
 value of `r13`, even if the instruction add an immediate, in this context,
 the immediate was patched with a register. Thus performing a `add mem, reg, reg`
 
-The third instruction simply zeros out the 7 higher bytes of the `r13`
+The third instruction simply zeroes out the 7 higher bytes of the `r13`
 register, my disassembler did not lift the addresses of the higher bytes of
 regs but trust me on this one.
 
-The comment on the second instruction shows us that the addition had a result of `0x1` (64 bits little endian) (`r6` had value 1), so these 3 instructions simply increments `r13`.
+The comment on the second instruction shows us that the addition had a result of `0x1` (64 bits little endian) (`r6` had value 1), so these 3 instructions simply increment `r13`.
 
 
 ### Lookup tables
@@ -331,7 +332,7 @@ coming from an array indexed with the same counter as the flag.
 {{< image src="/svartalfheim/lut_lookup.png" style="border-radius: 8px;" >}}
 
 The first block simply loads the current flag byte in `r11` (`0x46` = `'F'`)
-and the second one basically substitute the byte from the flag based on a lookup table.
+and the second one basically substitutes the byte from the flag based on a lookup table.
 
 The LuT is indexed based on the flag byte and `r12`, which I assume is some
 sort of nonce to add the information of the position of the byte in the
@@ -347,8 +348,7 @@ uint64_t *LuT = 0x49000;
 r11 = *(LuT + r3);
 ```
 
-The next few blocks are not that important, store the LuTed byte in memory,
-basically increment string iterators, decrement size counters
+The next few blocks are not that important, they store the LuTed byte in memory, increment string iterators and decrement size counters
 
 But then comes the one most important code pattern of this VM:
 
@@ -358,7 +358,9 @@ But then comes the one most important code pattern of this VM:
 
 These two blocks perform a branch
 
-It essentially is a `test r7; jne mem` heres how it works after lifting:
+It essentially is a `test r7, r7; jne mem`
+
+Here is how it works after lifting:
 
 ```c
 // First block
@@ -384,7 +386,7 @@ After that there is a really similar block of code, also performing lookups
 of some sort I did not really bother to understand (as the ones of the
 previous step) because I found a really interesting branch which was not a loop.
 
-I notice a similar pattern than the for loop above, sligthly differentm but
+I notice a similar pattern than the for loop above, sligthly different but
 still some kind of jump table.
 
 What stroke me is that as you can see on the screenshot bellow, it was
@@ -393,7 +395,7 @@ to a different branch than the one starting with `FCSC{`
 
 {{< image src="/svartalfheim/check.png" style="border-radius: 8px;" >}}
 
-What I did not notice at first is that there are two different branch in
+What I did not notice at first is that there are two different branchments in
 the screenshot (with the jump offsets marked in red). I noticed it quickly and
 backported it to my solver.
 I do not actually know what is the meaning of these 2 checks regarding the
@@ -405,9 +407,9 @@ check the value moved in `r4` is `0x18`.
 
 And then bruteforced byte by byte:
 
-While bruteforcing the `n`th byte, I need to hit the breakpoint succesfully (with `0x14` in `r4`) `2*n` times. If the breakpoint check fails once then the byte is fucked up.
+While bruteforcing the `n`th byte, I need to hit the breakpoint succesfully (with `0x18` in `r4`) `2*n` times. If the breakpoint check fails once then the byte is fucked up.
 
-## Solver
+# Solver
 
 Here is the complete solver code, with the interpreter, correct breakpoints and
 bruteforcing
