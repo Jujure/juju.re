@@ -19,7 +19,7 @@ We are instead met with a program that takes 20 minutes to validate the input an
 
 ## Challenge description
 
-`reverse` | `490 pts` `5 solves` `:star::star::star:`
+`reverse` | `487 pts` `6 solves` `:star::star::star:`
 
 ```
 Voici un binaire qui vérifie si ce qu'on lui passe est le flag. À vous de jouer !

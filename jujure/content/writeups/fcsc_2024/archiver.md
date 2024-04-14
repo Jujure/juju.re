@@ -48,8 +48,9 @@ breakpoint.
 
 Note : La chaîne que vous trouverez est à mettre entre FCSC{} pour avoir
 le flag.
-
 ```
+
+Authors: `commial` `YoMama`
 
 ## Given files
 
@@ -102,7 +103,7 @@ Now let's try to create our own archive:
 
 ```console
 $ echo -n 'FCSC{test_flag}' > flag.txt
-$ $ ./archiver.exe create password test.db flag.txt
+$ ./archiver.exe create password test.db flag.txt
 $ xxd test.db 
 00000000: 0100 0000 0000 0000 21e2 ae0f b85f de7b  ........!...._.{
 00000010: b246 ed90 194f 601e 041b 3c8a c6e9 37b1  .F...O`...<...7.

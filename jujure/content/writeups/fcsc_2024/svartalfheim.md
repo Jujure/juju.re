@@ -15,7 +15,7 @@ not looking at it, so stay alert :eyes:.
 
 ## Challenge description
 
-`reverse` | `469 pts` `13 solves` `:star::star::star:`
+`reverse` | `467 pts` `14 solves` `:star::star::star:`
 
 ```
 Trouvez le flag accepté par le binaire.
