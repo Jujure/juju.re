@@ -25,7 +25,7 @@ the flag without actually solving the intended puzzle, but more on that later.
 {{< image src="/diplodocus/yee-dinosaur.gif" style="border-radius: 8px;" >}}
 
 ## Challenge description
-`reverse` | `477 pts` `10 solves` `:star::star::star:`
+`reverse` | `477 pts` `10 solves` :star::star::star:
 ```
 Trouvez une entrée qui valide, et soumettez-la au service en ligne pour obtenir
 le flag.

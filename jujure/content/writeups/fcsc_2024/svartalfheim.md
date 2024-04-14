@@ -1,6 +1,6 @@
 ---
 title: "Lifting a reloc based VM | Svartalfheim @ FCSC 2024"
-date: "2024-04-14 22:00:00"
+date: "2024-04-13 22:00:00"
 author: "Juju"
 tags: ["Reverse", "Writeup", "fcsc"]
 toc: true
@@ -15,7 +15,7 @@ not looking at it, so stay alert :eyes:.
 
 ## Challenge description
 
-`reverse` | `467 pts` `14 solves` `:star::star::star:`
+`reverse` | `467 pts` `14 solves` :star::star::star:
 
 ```
 Trouvez le flag accepté par le binaire.

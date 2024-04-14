@@ -30,7 +30,7 @@ do without reading the code or debugging.
 
 ## Challenge description
 
-`reverse` | `490 pts` `5 solves` `:star::star:`
+`reverse` | `490 pts` `5 solves` :star::star:
 
 ```
 Notre équipe SIGINT a intercepté un e-mail contenant une pièce jointe

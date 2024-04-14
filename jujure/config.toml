@@ -66,11 +66,6 @@ enableEmoji = true
 [languages]
   [languages.en]
     title = "Juju"
-    subtitle = ""
-    keywords = "Crypto, Reverse"
-    copyright = '<a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener">CC BY-NC 4.0</a>'
-    readOtherPosts = "Read other posts"
-
     [languages.en.params.logo]
       logoMark = "juju@synacktiv ~$ "
       logoText = "objdump -d"

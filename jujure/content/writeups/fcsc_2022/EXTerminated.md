@@ -18,7 +18,7 @@ known cryptosystem to encrypt data, let's find this out.
 {{< image src="/EXTerminated/panik.png" style="border-radius: 8px;" >}}
 
 ## Challenge description
-`reverse` | `472 pts` `12 solves` `:star::star:`
+`reverse` | `472 pts` `12 solves` :star::star:
 ```
 Un client a détecté un seveur compromis sur son parc. Ce serveur semble avoir
 perdu l'ensemble de ses données suite à une infection. Il nous indique que les

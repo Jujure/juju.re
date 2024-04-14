@@ -24,7 +24,7 @@ the solver algorithm for the first puzzle so here you go.
 
 ## Challenge description
 
-`reverse` | `482 pts` `8 solves` `:star::star::star:`
+`reverse` | `482 pts` `8 solves` :star::star::star:
 
 ```
 Trouvez une entrée permettant d'afficher le message de réussite, et envoyez-la

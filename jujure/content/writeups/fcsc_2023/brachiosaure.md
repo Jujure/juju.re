@@ -15,7 +15,8 @@ here, but in solving the underlying problem.
 {{< image src="/brachiosaure/meme.jpg" style="border-radius: 8px;" >}}
 
 ## Challenge description
-`reverse` | `477 pts` `10 solves` `:star::star:`
+
+`reverse` | `477 pts` `10 solves` :star::star:
 
 ```
 Vous aimez les QR Codes ? On vous demande d'écrire un générateur d'entrées
