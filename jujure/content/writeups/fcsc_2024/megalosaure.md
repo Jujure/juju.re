@@ -1,5 +1,5 @@
 ---
-title: "Decompiling a nanomites based VM back to C | Megalosaure @ FCSC 2024"
+title: "Decompiling a multi-process VM back to C | Megalosaure @ FCSC 2024"
 date: "2024-04-14 22:00:00"
 author: "Juju"
 tags: ["Reverse", "Writeup", "fcsc"]
