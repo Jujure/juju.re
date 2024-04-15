@@ -1,6 +1,6 @@
 ---
 title: "Lifting a reloc based VM | Svartalfheim @ FCSC 2024"
-date: "2024-04-13 22:00:00"
+date: "2024-04-14 22:00:00"
 author: "Juju"
 tags: ["Reverse", "Writeup", "fcsc"]
 toc: true
