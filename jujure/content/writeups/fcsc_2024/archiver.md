@@ -290,7 +290,7 @@ Remember that I know that filename is `flag.txt`, and that I have
 an associated ciphertext.
 
 With a little bit of luck, the IV of the filename cipher text
-is generated with the key:
+is generated with the same key:
 
 ```console
 >>> 0x82 ^ ord('f')
@@ -299,10 +299,8 @@ is generated with the key:
 
 Looks like it does.
 
-Since I have a known plaintext, example cipher text.
-
-I can simply, xor the plaintext with the filename IV to recover
-the xor key.
+Since I have a known plaintext and example cipher text, I can simply, xor
+the plaintext with the filename IV to recover the xor key.
 
 Then apply the same key to the file data IV to recover the
 plain text:
