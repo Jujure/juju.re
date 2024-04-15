@@ -4,7 +4,7 @@ import struct
 from pwn import *
 from typing import Optional, List
 from Crypto.Util.number import inverse
-from z3 import *
+#from z3 import *
 
 
 opcodes = {
@@ -210,7 +210,6 @@ class Child:
         self.depends = []
         self.unlocks = []
         self.inputs = []
-        self.forced = False, 0
         self.main_instr = None
         while True:
             instr = Instruction.disassemble(self.code)
@@ -254,59 +253,6 @@ class Child:
     def mark_unlocks(self, locks):
         for unlock in self.unlocks:
             locks[unlock] = (False, self)
-
-
-    def invert(self, desired):
-        instr = self.main_instr
-        op = instr.name
-        inputs = self.inputs
-
-        if len(inputs) == 0:
-            if op == 'push_m':
-                return desired
-            elif op == 'push32_i_i':
-                print(self.forced)
-                raise
-            else:
-                print(op)
-
-        elif len(inputs) == 1:
-            inp = inputs[0]
-            if op == "pop_m":
-                return inp.invert(desired)
-            if op == "not":
-                return inp.invert((~desired) % N)
-            else:
-                print(op)
-        else:
-            forced0 = inputs[0].forced
-            forced1 = inputs[1].forced
-
-            if not forced0 and not forced1:
-                return
-
-            forced_child = inputs[0] if forced0[0] else inputs[1]
-            unk_child = inputs[1] if forced0[0] else inputs[0]
-
-            if op == 'xor':
-                return unk_child.invert(desired ^ forced_child.forced[1])
-            elif op == 'sub':
-                if forced0:
-                    return unk_child.invert((desired + forced_child.forced[1]) % N)
-                else:
-                    return unk_child.invert((-desired + forced_child.forced[1]) % N)
-            elif op == 'add':
-                return unk_child.invert((desired - forced_child.forced[1]) % N)
-            elif op == 'and':
-                return unk_child.invert(desired & forced_child.forced[1])
-            elif op == 'or':
-                return unk_child.invert(desired | forced_child.forced[1])
-            elif op == 'mul':
-                return unk_child.invert(((desired) * inverse(forced_child.forced[1], N)) % N)
-            elif op == 'shl':
-                return unk_child.invert(((desired) * inverse(forced_child.forced[1], N)) % N)
-            else:
-                print(op)
 
     def transpile(self, indent=0):
         code = "(\n"

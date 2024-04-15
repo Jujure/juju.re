@@ -29,7 +29,7 @@ Author: `Cryptanalyse`
 
 ## Given files
 
-[megalosaure](/megalosaure/megalosaure)
+[megalosaure](/megalosaure/src/megalosaure)
 
 
 # Writeup
